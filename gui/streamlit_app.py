@@ -16,30 +16,33 @@ def get_answer(question: str) -> str:
     
     except Exception as e:
         # Return error message if an exception occurs
-        return f'An error occurred: {e}. Please make sure you are using a valid cloudflare clearance token and user agent.'
+        return f'报错信息: {e}'
 
 
 # Set page configuration and add header
 st.set_page_config(
-    page_title="gpt4freeGUI",
+    page_title="GPT4free",
     initial_sidebar_state="expanded",
     page_icon="🧠",
     menu_items={
-        'Get Help': 'https://github.com/xtekky/gpt4free/blob/main/README.md',
-        'Report a bug': "https://github.com/xtekky/gpt4free/issues",
+             
         'About': "### gptfree GUI"
     }
 )
-st.header('GPT4free GUI')
+st.header('GPT4free')
 
 # Add text area for user input and button to get answer
 question_text_area = st.text_area(
-    '🤖 Ask Any Question :', placeholder='Explain quantum computing in 50 words')
-if st.button('🧠 Think'):
+    '🤖 问任何问题:', placeholder='Explain quantum computing in 50 words')
+if st.button('🧠 发送',key=13):
+    cnstr='使用中文回复：'
+    question_text_area+=cnstr
     answer = get_answer(question_text_area)
     # Display answer
-    st.caption("Answer :")
-    st.markdown(answer)
+    
+    utf8_decode = answer.encode().decode("unicode_escape").replace('”}','').replace('"}','')
+    st.caption("回复 :")
+    st.markdown(utf8_decode)
 
 # Hide Streamlit footer
 hide_streamlit_style = """
